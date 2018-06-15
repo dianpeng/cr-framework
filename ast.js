@@ -2,16 +2,14 @@
 // all the CR/BR , chains of recurrences / basic recurrence.
 
 class Position {
-  constructor() {
-    this.source = null;
-    this.start  =    0;
-    this.end    =    0;
-  }
-
   constructor( src , s , e ) {
     this.source = src;
     this.start  =   s;
     this.end    =   e;
+  }
+
+  get snippet() {
+    return this.source.substr(this.start,this.end-this.start);
   }
 };
 
@@ -78,10 +76,16 @@ class Var {
 };
 
 class Output {
-  constructor( pos ) {
+  constructor(pos,tuple) {
     this.position = pos;
-    this.tuple = [];
-    this.limit = null;
+    this.tuple = tuple;
+  }
+};
+
+class Program {
+  constructor(pos,stmt) {
+    this.position = pos;
+    this.statement= stmt;
   }
 };
 
@@ -95,5 +99,6 @@ module.exports = {
   Negate   : Negate,
   Binary   : Binary,
   Var      : Var   ,
-  Output   : Output
+  Output   : Output,
+  Program  : Program
 };

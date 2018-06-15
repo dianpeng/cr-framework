@@ -14,6 +14,8 @@ class Token {
   static get tkSemicolon() { return 15; }
   static get tkComma    () { return 16; }
   static get tkAssign   () { return 17; }
+  static get tkLSqr     () { return 18; }
+  static get tkRSqr     () { return 19; }
 
   static get tkVar()    { return 21; }
   static get tkOutput() { return 22; }
@@ -36,6 +38,8 @@ class Token {
       case Token.tkRPar: return ")";
       case Token.tkLBra: return "{";
       case Token.tkRBra: return "}";
+      case Token.tkLSqr: return "[";
+      case Token.tkRSqr: return "]";
       case Token.tkSemicolon: return ";";
       case Token.tkComma    : return ",";
       case Token.tkAssign   : return "=";
@@ -70,6 +74,10 @@ class Tokenizer {
 
     this.posCount= 1;
     this.posLine = 1;
+  }
+
+  get lexemePos() {
+    return this.pos - this.lexeme.length;
   }
 
   _yield( tk , len , offset ) {
@@ -130,12 +138,12 @@ class Tokenizer {
   }
 
   _lexVar(c) {
-    if(c == "v" && (this.pos + 3 < this.length) &&
+    if(c == "v" && (this.pos + 2 < this.src.length) &&
                     this.src.charAt(this.pos+1) == "a" &&
                     this.src.charAt(this.pos+2) == "r" &&
                     !this._isRestIdChar(this.pos+3)) {
       return this._yield(Token.tkVar,3,3);
-    } else if(c == "o" && (this.pos + 6 < this.length) &&
+    } else if(c == "o" && (this.pos + 5 < this.src.length) &&
                            this.src.charAt(this.pos+1) == "u" &&
                            this.src.charAt(this.pos+2) == "t" &&
                            this.src.charAt(this.pos+3) == "p" &&
@@ -143,12 +151,12 @@ class Tokenizer {
                            this.src.charAt(this.pos+5) == "t" &&
                            !this._isRestIdChar(this.pos+6)) {
       return this._yield(Token.tkOutput,6,6);
-    } else if(c == "u" && (this.pos + 5 < this.length) &&
+    } else if(c == "u" && (this.pos + 4 < this.src.length) &&
                            this.src.charAt(this.pos+1) == "n" &&
                            this.src.charAt(this.pos+2) == "t" &&
                            this.src.charAt(this.pos+3) == "i" &&
                            this.src.charAt(this.pos+4) == "l" &&
-                           this._isRestIdChar(this.pos+5)) {
+                           !this._isRestIdChar(this.pos+5)) {
       return this._yield(Token.tkUntil,5,5);
     } else if(this._isAlpha(c) || c == "_") {
       let start = this.pos; ++this.pos;
@@ -192,6 +200,8 @@ class Tokenizer {
         case ")": return this._yield(Token.tkRPar,1,1);
         case "{": return this._yield(Token.tkLBra,1,1);
         case "}": return this._yield(Token.tkRBra,1,1);
+        case "[": return this._yield(Token.tkLSqr,1,1);
+        case "]": return this._yield(Token.tkRSqr,1,1);
         case ";": return this._yield(Token.tkSemicolon,1,1);
         case ",": return this._yield(Token.tkComma,1,1);
         case "0": case "1": case "2": case "3": case "4":
