@@ -4,15 +4,23 @@
 class Position {
   constructor() {
     this.source = null;
-    this.pos    =    0;
-    this.line   =    0;
+    this.start  =    0;
+    this.end    =    0;
   }
 
-  constructor( src , p , l ) {
+  constructor( src , s , e ) {
     this.source = src;
-    this.pos    =   p;
-    this.line   =   l;
+    this.start  =   s;
+    this.end    =   e;
   }
+};
+
+class Operator {
+  static get opAdd() { return 1; }
+  static get opSub() { return 2; }
+  static get opMul() { return 3; }
+  static get opDiv() { return 4; }
+  static get opPow() { return 5; }
 };
 
 class Integer {
@@ -22,18 +30,70 @@ class Integer {
   }
 };
 
-class Add {
-  constructor( lhs , rhs, pos ) {
+class Variable {
+  constructor( name , pos ) {
     this.position = pos;
-    this.lhs = lhs;
-    this.rhs = rhs;
+    this.name     = name;
   }
 };
 
-class Sub {
-  constructor( lhs , rhs, pos ) {
+class AddRecurrence {
+  constructor( start , stride , pos ) {
+    this.position = pos;
+    this.start    = start;
+    this.stride   = stride;
+  }
+};
+
+class MulRecurrence {
+  constructor( start, stride, pos ) {
+    this.position = pos;
+    this.start    = start;
+    this.stride   = stride;
+  }
+};
+
+class Negate {
+  constructor( opr , pos ) {
+    this.position = pos;
+    this.oprand   = opr;
+  }
+};
+
+class Binary {
+  constructor( lhs , rhs, op, pos ) {
+    this.position = pos;
+    this.op       =  op;
+    this.lhs      = lhs;
+    this.rhs      = rhs;
+  }
+};
+
+class Var {
+  constructor( lhs , rhs , pos ) {
     this.position = pos;
     this.lhs      = lhs;
     this.rhs      = rhs;
   }
+};
+
+class Output {
+  constructor( pos ) {
+    this.position = pos;
+    this.tuple = [];
+    this.limit = null;
+  }
+};
+
+module.exports = {
+  Position : Position ,
+  Operator : Operator ,
+  Integer  : Integer  ,
+  Variable : Variable ,
+  AddRecurrence : AddRecurrence,
+  MulRecurrence : MulRecurrence,
+  Negate   : Negate,
+  Binary   : Binary,
+  Var      : Var   ,
+  Output   : Output
 };
