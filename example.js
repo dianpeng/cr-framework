@@ -9,11 +9,8 @@ function dump(xx) {
 
 function example() {
   let output = cr(`
-    var i = {0,+,1}
-    var h = 2 * 7 + 1 + 3 * 5 -14
-    output [ 7 * i*i + i + 1 ,
-             17781 * i * i * i * i + i * i * i + i * 17 + 9 ,
-             h ]
+    var i = {0,+,10}
+    output [ i*i*7 + i + 17771 ]
     `);
 
   console.log("-----------Chain of Recurrences---------------");
