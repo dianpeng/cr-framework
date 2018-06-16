@@ -17,8 +17,6 @@ class Operator {
   static get opAdd() { return 1; }
   static get opSub() { return 2; }
   static get opMul() { return 3; }
-  static get opDiv() { return 4; }
-  static get opPow() { return 5; }
 };
 
 class Integer {
@@ -37,14 +35,6 @@ class Variable {
 
 class AddRecurrence {
   constructor( start , stride , pos ) {
-    this.position = pos;
-    this.start    = start;
-    this.stride   = stride;
-  }
-};
-
-class MulRecurrence {
-  constructor( start, stride, pos ) {
     this.position = pos;
     this.start    = start;
     this.stride   = stride;
@@ -95,7 +85,6 @@ module.exports = {
   Integer  : Integer  ,
   Variable : Variable ,
   AddRecurrence : AddRecurrence,
-  MulRecurrence : MulRecurrence,
   Negate   : Negate,
   Binary   : Binary,
   Var      : Var   ,

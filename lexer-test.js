@@ -5,12 +5,12 @@ var Lexeme    = tk.Lexeme;
 
 function _testOp() {
   let assert    = require("assert");
-  let tokenizer = new Tokenizer("+ - * / ^ ; , () {} 12311 xxx\n" +
+  let tokenizer = new Tokenizer("+ - * ; , () {} 12311 xxx\n" +
                                 "#xxxx\n" +
                                 "= []");
-  let result    = [ Token.tkAdd, Token.tkSub, Token.tkMul, Token.tkDiv,
-                    Token.tkPow, Token.tkSemicolon, Token.tkComma,
-                    Token.tkLPar,Token.tkRPar, Token.tkLBra, Token.tkRBra,
+  let result    = [ Token.tkAdd, Token.tkSub, Token.tkMul,
+                    Token.tkSemicolon, Token.tkComma,
+                    Token.tkLPar,Token.tkRPar, Token.tkLBra,Token.tkRBra,
                     Token.tkNumber, Token.tkVariable , Token.tkAssign ,
                     Token.tkLSqr , Token.tkRSqr, Token.tkEof ];
 

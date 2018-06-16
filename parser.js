@@ -61,12 +61,10 @@ class Parser {
     let tk = this.tokenizer.next();
     let start = null;
     let end   = null;
-    let add   = false;
 
     // start of the basic recurrenses
     if(tk.token == lexer.Token.tkNumber) {
-      start = tk.number;
-      this.tokenizer.next();
+      start = new ast.Integer(tk.number,this._move());
     } else {
       start = this._parseExpr();
       if(start == null) return null;
@@ -76,12 +74,8 @@ class Parser {
     tk = this.tokenizer.next();
 
     // operator
-    if(tk.token == lexer.Token.tkAdd) {
-      add = true;
-    } else if(tk.token == lexer.Token.tkMul) {
-      add = false;
-    } else {
-      return this._error("basic recurrenses operator can only accept + or *,please normalize it");
+    if(tk.token != lexer.Token.tkAdd) {
+      return this._error("only basic *add* recurrence is supported");
     }
 
     if(!this._moveAndExpect(lexer.Token.tkComma)) return null;
@@ -89,8 +83,7 @@ class Parser {
 
     // stride of the basic recurrenses
     if(tk.token == lexer.Token.tkNumber) {
-      end = tk.number;
-      this.tokenizer.next();
+      end = new ast.Integer(tk.number,this._move());
     } else {
       end = this._parseExpr();
       if(end == null) return null;
@@ -98,11 +91,7 @@ class Parser {
 
     if(!this._expect(lexer.Token.tkRBra)) return null;
 
-    if(add) {
-      return new ast.AddRecurrence(start,end,this._moveAndNewPosition(posStart));
-    } else {
-      return new ast.MulRecurrence(start,end,this._moveAndNewPosition(posStart));
-    }
+    return new ast.AddRecurrence(start,end,this._moveAndNewPosition(posStart));
   }
 
   _parsePrimary() {
@@ -140,30 +129,25 @@ class Parser {
   }
 
   _getOpPrecedence(tk) {
-    if(tk == lexer.Token.tkAdd || tk == lexer.Token.tkSub) return 3;
-    if(tk == lexer.Token.tkMul || tk == lexer.Token.tkDiv) return 2;
-    if(tk == lexer.Token.tkPow) return 1;
+    if(tk == lexer.Token.tkAdd || tk == lexer.Token.tkSub) return 2;
+    if(tk == lexer.Token.tkMul) return 1;
     return 0;
   }
 
-  _getMaxOpPrecedence() { return 3; }
+  _getMaxOpPrecedence() { return 2; }
 
   _mapTokenToOp(tk) {
     switch(tk) {
       case lexer.Token.tkAdd: return ast.Operator.opAdd;
       case lexer.Token.tkSub: return ast.Operator.opSub;
       case lexer.Token.tkMul: return ast.Operator.opMul;
-      case lexer.Token.tkDiv: return ast.Operator.opDiv;
-      case lexer.Token.tkPow: return ast.Operator.opPow;
       default: // unreachable
         return null;
     }
   }
 
   _isBinaryOp(tk) {
-    if(tk == lexer.Token.tkAdd || tk == lexer.Token.tkSub ||
-       tk == lexer.Token.tkMul || tk == lexer.Token.tkDiv ||
-       tk == lexer.Token.tkPow)
+    if(tk == lexer.Token.tkAdd || tk == lexer.Token.tkSub || tk == lexer.Token.tkMul)
       return true;
     return false;
   }

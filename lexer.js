@@ -4,8 +4,6 @@ class Token {
   static get tkAdd() { return 1; }
   static get tkSub() { return 2; }
   static get tkMul() { return 3; }
-  static get tkDiv() { return 4; }
-  static get tkPow() { return 5; }
 
   static get tkLPar() { return 11; }
   static get tkRPar() { return 12; }
@@ -32,8 +30,6 @@ class Token {
       case Token.tkAdd : return "+";
       case Token.tkSub : return "-";
       case Token.tkMul : return "*";
-      case Token.tkDiv : return "/";
-      case Token.tkPow : return "^";
       case Token.tkLPar: return "(";
       case Token.tkRPar: return ")";
       case Token.tkLBra: return "{";
@@ -194,8 +190,6 @@ class Tokenizer {
         case "+": return this._yield(Token.tkAdd,1,1);
         case "-": return this._yield(Token.tkSub,1,1);
         case "*": return this._yield(Token.tkMul,1,1);
-        case "/": return this._yield(Token.tkDiv,1,1);
-        case "^": return this._yield(Token.tkPow,1,1);
         case "(": return this._yield(Token.tkLPar,1,1);
         case ")": return this._yield(Token.tkRPar,1,1);
         case "{": return this._yield(Token.tkLBra,1,1);
