@@ -10,7 +10,7 @@ function example() {
   let output = cr(`
     var i = {0,+,1}
     output [ 7 * i*i + i + 1 ,
-             8 * i * i * i * i + i * i * i + i * 17 + 9 ]
+             17781 * i * i * i * i + i * i * i + i * 17 + 9 ]
     `);
 
   console.log("-----------Chain of Recurrences---------------");
