@@ -10,4 +10,4 @@ module.exports = function(script) {
 
   let output = eval(result.node);
   return output;
-}
+};

@@ -1,6 +1,6 @@
 var assert = require("assert");
-var util   = require("util")
-var cr     = require("cr");
+var util   = require("util");
+var cr     = require("./cr.js");
 
 function dump(xx) {
   console.log(util.inspect(xx,{colors:true,depth:10000}));
